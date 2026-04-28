@@ -399,6 +399,4 @@ st.write("NOTA: EN EL CASO DE LAS PERSONAS CON ENFERMEDAD MENTAL Y SU EFECTIVIDA
 
 st.dataframe(Consulta5)
 
-conn.close()
-
 st.write("Funciones aplicadas para realizar las consultas: CTE (Common Table Expressions), UNION ALL, Subquery")
