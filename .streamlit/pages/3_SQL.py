@@ -28,46 +28,27 @@ st.markdown(
 
 st.title("SQL")
 
-import sqlite3
-import os
+@st.cache_resource
+def iniciar_conexion():
+    url = "https://raw.githubusercontent.com/Marizaf23/..."
+    db_file = "mentalhealthti1.sqlite"
+    
+    # Solo descarga si el archivo no existe
+    if not os.path.exists(db_file):
+        response = requests.get(url)
+        with open(db_file, "wb") as f:
+            f.write(response.content)
+            
+    conn = sqlite3.connect(db_file, check_same_thread=False)
+    return conn
 
-# Download the database file from GitHub
-url = "https://raw.githubusercontent.com/Marizaf23/Analisis-Estadistico-Salud-Mental-Tecnologia/5618e24a050665009706f13a395efac802815571/BBDD/SALUD%20MENTAL%20EN%20LA%20INDUSTRIA%20TECNOL%C3%93GICA%201.sqlite"
-response = requests.get(url)
-with open("mentalhealthti1.sqlite", "wb") as f:
-    f.write(response.content)
-
-
-print(os.path.exists("mentalhealthti1.sqlite"))
-print(os.access("mentalhealthti.sqlite", os.R_OK))
-
+# Llamas a la conexión así:
 try:
-    # Establish a connection to the database
-    conn = sqlite3.connect("mentalhealthti1.sqlite")
-    print("Connected to database!")
-
-
+    conn = iniciar_conexion()
     cur = conn.cursor()
-    print("Cursor created!")
-
-
-    query = """YOUR_SQL_QUERY_HERE"""
-    print(f"Executing query: {query}")
-    cur.execute(query)
-    print("Query executed!")
-
-    results = cur.fetchall()
-    print("Results fetched!")
-
-    conn.close()
-    print("Connection closed!")
-
-except sqlite3.OperationalError as e:
-    print(f"Error executing query: {e}")
-except sqlite3.Error as e:
-    print(f"Error connecting to database: {e}")
-except Exception as e:
-    print(f"Error: {e}")
+except:
+    st.error("Error al inicializar la base de datos.")
+    st.stop()
 
 
 st.header("Consulta 1")
@@ -418,6 +399,6 @@ st.write("NOTA: EN EL CASO DE LAS PERSONAS CON ENFERMEDAD MENTAL Y SU EFECTIVIDA
 
 st.dataframe(Consulta5)
 
-conn.close
+conn.close()
 
 st.write("Funciones aplicadas para realizar las consultas: CTE (Common Table Expressions), UNION ALL, Subquery")
