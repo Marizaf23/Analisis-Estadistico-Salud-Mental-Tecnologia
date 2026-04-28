@@ -29,26 +29,26 @@ st.markdown(
 st.title("SQL")
 
 @st.cache_resource
-def iniciar_conexion():
-    url = "https://raw.githubusercontent.com/Marizaf23/..."
-    db_file = "mentalhealthti1.sqlite"
+def obtener_conexion():
+    url = "https://raw.githubusercontent.com/Marizaf23/Analisis-Estadistico-Salud-Mental-Tecnologia/5618e24a050665009706f13a395efac802815571/BBDD/SALUD%20MENTAL%20EN%20LA%20INDUSTRIA%20TECNOL%C3%93GICA%201.sqlite"
+    db_name = "mentalhealthti1.sqlite"
     
-    # Solo descarga si el archivo no existe
-    if not os.path.exists(db_file):
-        response = requests.get(url)
-        with open(db_file, "wb") as f:
-            f.write(response.content)
+    # Descarga solo si no existe localmente
+    if not os.path.exists(db_name):
+        try:
+            response = requests.get(url)
+            with open(db_name, "wb") as f:
+                f.write(response.content)
+        except Exception:
+            st.error("No se pudo descargar la base de datos.")
+            return None
             
-    conn = sqlite3.connect(db_file, check_same_thread=False)
-    return conn
+    return sqlite3.connect(db_name, check_same_thread=False)
 
-# Llamas a la conexión así:
-try:
-    conn = iniciar_conexion()
+conn = obtener_conexion()
+
+if conn:
     cur = conn.cursor()
-except:
-    st.error("Error al inicializar la base de datos.")
-    st.stop()
 
 
 st.header("Consulta 1")
