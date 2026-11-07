@@ -29,7 +29,7 @@ st.title("Problemáticas y Estigmas de las Enfermedades Mentales en la Industria
 
 st.header("Visualización de los Datos")
 
-@st.cache
+@st.cache_data
 def load_csv_from_github(url):
         response = requests.get(url)
         if response.status_code == 200:
