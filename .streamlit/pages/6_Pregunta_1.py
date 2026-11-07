@@ -24,7 +24,7 @@ st.markdown(
 )
 
 
-@st.cache
+@st.cache_data
 def load_csv_from_github(url):
     response = requests.get(url)
     if response.status_code == 200:
