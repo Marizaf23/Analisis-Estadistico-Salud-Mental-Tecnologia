@@ -66,7 +66,7 @@ st.write('<p style="text-align: justify;">La salud mental es un aspecto crítico
 # Contenido de la página 2
 st.header("Visualización de los Datos")
 
-@st.cache
+@st.cache_data
 def load_csv_from_github(url):
         response = requests.get(url)
         if response.status_code == 200:
